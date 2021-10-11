@@ -1,0 +1,16 @@
+{
+  "name": "img-2d",
+  "version": "1.0.0",
+  "description": "Um programa que retorna das dimensões da imagem selecionada.",
+  "main": "index.js",
+  "scripts": {
+    "electron": "electron ."
+  },
+  "author": "felipesantosds",
+  "license": "ISC",
+  "dependencies": {
+    "@electron/remote": "^2.0.1",
+    "electron": "^15.0.0",
+    "image-size": "^1.0.0"
+  }
+}

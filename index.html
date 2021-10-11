@@ -1,0 +1,41 @@
+<!-- Podemos usar: HTML, CSS, JavaScript, Angular, JQuery, React etc. -->
+<html>
+    <head></head>
+    <body>
+        <!-- Formulário para obter a imagem e as dimensões. -->
+        <form>
+            <!-- Botão para o usuário escolher uma image (só pode imagem) do computador. -->
+            <input type="file" accept="image/*"><br>
+            <!-- Botão que pede para exibir as dimensões da imagem selecionada. -->
+            <button type="submit">Obter dimensões</button>
+        </form>
+        <!-- Parágrafo onde irão aparecer as dimensões da imagem selecionada. -->
+        <p id="dimensions"></p>
+    </body>
+    <script>
+        // Importação do electron.
+        const electron = require("electron");
+        // Obtenção do ipcRenderer por meio da desestruturação do electron.
+        const { ipcRenderer } = electron;
+
+        // Verica se algum formulário foi submetido.
+        document.querySelector("form").addEventListener("submit", (event) => {
+            // Impede a execução padrão do evento (que é de recarregar a página).
+            event.preventDefault();
+            // debugger; // Para a execução nesse ponto.
+            // Pressione ESC para pode usar o console e digitar comandos js.
+            // Obtem o endereço local da imagem pelo meio de desestruturação.
+            var { path } = document.querySelector("input").files[0];
+            // Envia a requisição para o ipcMain.
+            ipcRenderer.send("requestDimensions", path);
+        });
+
+        // Verifica se o evento de receber as dimensões foi chamado.
+        ipcRenderer.on("receiveDimensions", (event, dimensions) => {
+            // Cria conteúdo que será mostrado ao usuário.
+            var d = `Dimensões: ${dimensions.width} x ${dimensions.height}`;
+            // Mostra conteúdo.
+            document.querySelector("#dimensions").textContent = d;
+        });
+    </script>
+</html>
